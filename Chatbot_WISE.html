@@ -1,0 +1,59 @@
+<iframe id="aia-chatbot-embedded-chat" style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-right: 1rem;
+        margin-bottom: 5rem;
+        border: none;
+        z-index: 2000;
+
+      "></iframe>
+<script>
+  const isMobile = function () {
+    var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+    if (navigator.userAgent.match(regex_match) == null) {
+      return false;
+    } else
+      return true;
+  }
+
+  window.onmessage = function (e) {
+
+    if (e.data.hasOwnProperty("frameHeight")) {
+
+      iframe = document.getElementById("aia-chatbot-embedded-chat");
+
+      if (iframe) {
+        if (isMobile()) {
+          iframe.style.height = window.screen.height + 'px';
+          iframe.style.width = window.screen.width + 'px';
+          iframe.style.marginRight = e.data.marginRight;
+          iframe.style.marginBottom = e.data.marginBottom;
+
+        }
+        else if (navigator.userAgent.match(/(pad|iPad)/i)) {
+          if (window.orientation == 90 || window.orientation == -90) {
+            iframe.style.height = (e.data.frameHeight + 30) + 'px';
+            iframe.style.width = (e.data.frameWidth + 30) + 'px';
+          } else {
+            iframe.style.height = window.screen.height + 'px';
+            iframe.style.width = window.screen.width + 'px';
+            iframe.style.top = 0;
+            iframe.style.marginRight = e.data.marginRight;
+            iframe.style.marginBottom = e.data.marginBottom;
+          }
+        }
+        else {
+          iframe.style.height = (e.data.frameHeight + 30) + 'px';
+          iframe.style.width = (e.data.frameWidth + 30) + 'px';
+        }
+      }
+    };
+  };
+  window.onload = function () {
+    var iframeChat = document.getElementById("aia-chatbot-embedded-chat");
+    console.log("window.location.origin", window.location.origin);
+    var chatUrl = "https://irchatbotfuat.aia.com";
+    iframeChat.setAttribute("src", chatUrl);
+  };
+</script>
